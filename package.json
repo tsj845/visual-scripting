@@ -4,7 +4,7 @@
   "description": "visual scripting tool",
   "main": "main.js",
   "scripts": {
-    "test": "start"
+    "start": "electron ."
   },
   "repository": {
     "type": "git",
@@ -14,5 +14,8 @@
   "license": "MIT",
   "devDependencies": {
     "electron": "^18.0.1"
+  },
+  "dependencies": {
+    "yaml": "^1.10.2"
   }
 }
