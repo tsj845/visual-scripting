@@ -99,7 +99,6 @@ app.whenReady().then(() => {
     ipcMain.handle("data:get_blocks", get_blocks);
     ipcMain.handle("data:get_catagories", get_catas);
     ipcMain.on("debug:log", (_, args) => {console.log(...args)});
-    ipcMain.handle("test:invoke", () => {return "abcd"});
     ipcMain.on("window:make_main", createWindow);
     // ipcMain.handle("data:new_block");
     app.on("activate", () => {
