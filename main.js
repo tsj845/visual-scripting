@@ -42,8 +42,24 @@ function createStarterWindow () {
 
 /**@type {Array<Block>} */
 let block_list = [];
-/**@type {Array<String>} */
-let catas_list = [];
+// /**@type {Array<String>} */
+// let catas_list = [];
+let relas = {};
+
+function reload_cat_rels (objs) {
+    let r = {};
+
+    for (const i in objs) {
+        const obj = objs[i];
+        if (typeof obj === "string") {
+            r[i] = obj;
+        } else {
+            r[i] = reload_cat_rels(obj);
+        }
+    }
+
+    return r;
+}
 
 function reload_blocks () {
     block_list = [];
@@ -64,7 +80,7 @@ function reload_blocks () {
         let link = fmt(links[i]);
         let documents = yaml.parseAllDocuments(fs.readFileSync(link.target, "utf-8"));
         const namespace = link.namespace;
-        catas_list.push(namespace);
+        // catas_list.push(namespace);
         for (const i in documents) {
             const doc = documents[i];
             // console.log(doc);
@@ -74,6 +90,10 @@ function reload_blocks () {
             block_list.push(block);
         }
     }
+
+    let objs = JSON.parse(fs.readFileSync("./cat_tree.json"));
+
+    relas = reload_cat_rels(objs);
 }
 
 reload_blocks();
@@ -85,11 +105,8 @@ function get_blocks () {
     return block_list;
 }
 
-/**
- * @returns {Array<String>}
- */
-function get_catas () {
-    return catas_list;
+function get_relas () {
+    return relas;
 }
 
 app.whenReady().then(() => {
@@ -97,7 +114,7 @@ app.whenReady().then(() => {
     createStarterWindow();
 
     ipcMain.handle("data:get_blocks", get_blocks);
-    ipcMain.handle("data:get_catagories", get_catas);
+    ipcMain.handle("data:get_catagories", get_relas);
     ipcMain.on("debug:log", (_, args) => {console.log(...args)});
     ipcMain.on("window:make_main", createWindow);
     // ipcMain.handle("data:new_block");

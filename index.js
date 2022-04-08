@@ -36,8 +36,9 @@ const MenuDiv = document.getElementById("block-menu");
 
 /**@type {Array<Block>} */
 let blocks = [];
-/**@type {Array<String>} */
-let catagories = [];
+// /**@type {Array<String>} */
+// let catagories = [];
+let relations = {};
 
 // /**
 //  * makes a block item for the sidebar
@@ -95,9 +96,9 @@ function populateBlockMenu (options) {
 
 async function main () {
     blocks = await ElectronAPI.get_blocks();
-    catagories = await ElectronAPI.get_catagories();
-    ElectronAPI.log(catagories);
-    populateBlockMenu(catagories);
+    relations = await ElectronAPI.get_catagories();
+    ElectronAPI.log(relations);
+    populateBlockMenu(Object.keys(relations));
     MenuDiv.children[0].classList.toggle("active");
     ElectronAPI.log(MenuDiv.children.length);
     booted = true;

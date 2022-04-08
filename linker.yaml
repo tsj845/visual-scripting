@@ -8,5 +8,5 @@ namespace : "IO"
 ...
 ---
 target : "builtin_yaml/vector.yaml"
-namespace : "Vector"
+namespace : "Math.Vector"
 ...
