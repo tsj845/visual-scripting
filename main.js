@@ -42,21 +42,37 @@ function createStarterWindow () {
 
 /**@type {Array<Block>} */
 let block_list = [];
+/**@type {Array<String>} */
+let catas_list = [];
 
 function reload_blocks () {
     block_list = [];
-    let documents = yaml.parseAllDocuments(fs.readFileSync("./builtin_blocks.yaml", "utf-8"));
+    let links = yaml.parseAllDocuments(fs.readFileSync("./linker.yaml", "utf-8"));
     const fmt = (x) => {
+        const x1 = x;
+        x = x.contents === undefined ? (x.items === undefined ? x : x.items) : x.contents.items;
         let f = {};
         for (const i in x) {
             const v = x[i].value;
-            f[x[i].key.value] = v.type === "PLAIN" ? v.value : fmt(v.items);
+            // console.log(v);
+            f[x[i].key.value] = (v.type === "PLAIN" || v.type.indexOf("QUOTE") >= 0) ? v.value : fmt(v.items);
         }
         return f;
     };
-    for (const i in documents) {
-        const doc = documents[i];
-        block_list.push(new Block(fmt(doc.contents.items)));
+    for (const i in links) {
+        /**@type {{target:String,namespace:String}} */
+        let link = fmt(links[i]);
+        let documents = yaml.parseAllDocuments(fs.readFileSync(link.target, "utf-8"));
+        const namespace = link.namespace;
+        catas_list.push(namespace);
+        for (const i in documents) {
+            const doc = documents[i];
+            // console.log(doc);
+            let block = new Block(fmt(doc));
+            // console.log(block.name);
+            block.namespace = namespace;
+            block_list.push(block);
+        }
     }
 }
 
@@ -66,8 +82,14 @@ reload_blocks();
  * @returns {Array<Block>}
  */
 function get_blocks () {
-    console.log("get blocks");
     return block_list;
+}
+
+/**
+ * @returns {Array<String>}
+ */
+function get_catas () {
+    return catas_list;
 }
 
 app.whenReady().then(() => {
@@ -75,6 +97,7 @@ app.whenReady().then(() => {
     createStarterWindow();
 
     ipcMain.handle("data:get_blocks", get_blocks);
+    ipcMain.handle("data:get_catagories", get_catas);
     ipcMain.on("debug:log", (_, args) => {console.log(...args)});
     ipcMain.handle("test:invoke", () => {return "abcd"});
     ipcMain.on("window:make_main", createWindow);

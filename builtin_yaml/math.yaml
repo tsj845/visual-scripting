@@ -1,9 +1,8 @@
-# contains all built in blocks
 ---
 name:
   programmer : add
   basic : add
-description : adds two numbers
+description : a + b
 category : math
 controlflows : 0
 inputs:
@@ -17,7 +16,7 @@ opid : math.add
 name:
   programmer : sub
   basic : subtract
-description : subtracts "b" from "a"
+description : a - b
 category : math
 controlflows : 0
 inputs:
@@ -31,7 +30,7 @@ opid : math.sub
 name:
   programmer : mul
   basic : multiply
-description : multiplies two numbers
+description : a * b
 category : math
 controlflows : 0
 inputs:
@@ -45,7 +44,7 @@ opid : math.mul
 name:
   programmer : div
   basic : divide
-description : divides "a" by "b"
+description : a / b
 category : math
 controlflows : 0
 inputs:
@@ -59,7 +58,7 @@ opid : math.div
 name:
   programmer : mod
   basic : remainder
-description : gets the remainder of "a" divided by "b"
+description : remainder of a / b
 category : math
 controlflows : 0
 inputs:
@@ -68,15 +67,4 @@ inputs:
 outputs:
   c : number
 opid : math.mod
-...
----
-name:
-  programmer : Console.log
-  basic : print
-description : logs output to the console
-category : io
-controlflows : 2
-inputs:
-  arg : any
-opid : console.log
 ...

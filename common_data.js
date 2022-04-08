@@ -79,11 +79,12 @@ class TypeMap {
  * @property {TypeMap} inputs
  * @property {TypeMap} outputs
  * @property {String} opid
+ * @property {String} namespace
  */
 class Block {
     /**
      * @constructor
-     * @param {{name?:{programmer:String,basic:String},description?:String,category?:String,controlflows?:Number,inputs?:TypeMap,outputs?:TypeMap,opid:String}} [options] 
+     * @param {{name?:{programmer:String,basic:String},description?:String,category?:String,controlflows?:Number,inputs?:TypeMap,outputs?:TypeMap,opid:String,namespace?:String}} [options] 
      */
     constructor (options) {
         // console.log(options);
@@ -97,6 +98,7 @@ class Block {
         this.controlflows = options.controlflows || 0;
         this.inputs = options.inputs || new TypeMap();
         this.outputs = options.outputs || new TypeMap();
+        this.namespace = options.namespace || "top";
     }
 }
 

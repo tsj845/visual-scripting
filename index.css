@@ -1,50 +1,45 @@
 :root {
-    --side-width : 25vw;
-    --side-height : 25vh;
-    --block-item-height : 7.5vh;
     --block-item-bwidth : 2px;
+    --block-menu-width : 10vw;
+    --next-img-width : 1em;
 }
 
-#block-sidebar {
+#block-menu {
     position : absolute;
-    left : 0px;
-    top : 0px;
-    width : var(--side-width);
-    height : var(--side-height);
-    border-color : black;
-    border-style : solid;
-    border-width : 0px;
-    border-right-width : 1px;
-    border-bottom-width : 1px;
-    overflow-y : scroll;
+    background : dimgray;
+    width : var(--block-menu-width);
+    height : 20em;
+    left : calc(var(--x, 0) * 1px);
+    top : calc(var(--y, 0) * 1px);
+}
+
+#block-menu::-webkit-scrollbar {
+    display : none;
 }
 
 .block-item {
-    width : calc(var(--side-width) - var(--block-item-bwidth) * 2);
-    height : calc(var(--block-item-height) - var(--block-item-bwidth) * 2);
-    border : solid black var(--block-item-bwidth);
-    overflow-y : scroll;
-}
-
-.block-item-desc {
-    position : relative;
-    left : 0px;
-    bottom : 0px;
-    overflow-y : scroll;
-    word-break : break-all;
     width : 100%;
-    height : 20%;
+    height : 1em;
+    color : lightgray;
+    background : dimgray;
+    border-bottom : solid var(--block-item-bwidth) black;
+    display : flex;
+    flex-direction : row;
+    align-content : space-between;
 }
 
-.block-item-name {
-    position : relative;
-    left : 0px;
-    top : 0px;
+.block-item > span {
+    padding-left : 2px;
+    width : calc(var(--block-menu-width) - var(--next-img-width));
 }
 
-.block-item > .block-item-cata {
-    position : absolute;
-    right : 0px;
-    top : 0px;
-    text-align : right;
+.block-item > .next-img {
+    width : var(--next-img-width);
+    height : var(--next-img-width);
+    vertical-align : middle;
+}
+
+.block-item.active {
+    background : lightgray;
+    color : dimgray;
 }

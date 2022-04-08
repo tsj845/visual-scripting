@@ -1,0 +1,12 @@
+---
+target : "builtin_yaml/math.yaml"
+namespace : "Math"
+...
+---
+target : "builtin_yaml/io.yaml"
+namespace : "IO"
+...
+---
+target : "builtin_yaml/vector.yaml"
+namespace : "Vector"
+...

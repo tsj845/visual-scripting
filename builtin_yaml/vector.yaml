@@ -1,0 +1,15 @@
+---
+name:
+  programmer : new
+  basic : new
+description : creates a new vector
+category : math
+controlflows : 0
+inputs:
+  x : number
+  y : number
+  z : number
+outputs:
+  vector : vector
+opid : vector.new
+...

@@ -1,0 +1,11 @@
+---
+name:
+  programmer : log
+  basic : print
+description : logs output to the console
+category : io
+controlflows : 2
+inputs:
+  arg : any
+opid : console.log
+...
