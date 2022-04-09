@@ -98,23 +98,13 @@ function reload_blocks () {
 
 reload_blocks();
 
-/**
- * @returns {Array<Block>}
- */
-function get_blocks () {
-    return block_list;
-}
-
-function get_relas () {
-    return relas;
-}
-
 app.whenReady().then(() => {
     screen = require("electron").screen;
     createStarterWindow();
 
-    ipcMain.handle("data:get_blocks", get_blocks);
-    ipcMain.handle("data:get_catagories", get_relas);
+    ipcMain.handle("data:get_blocks", ()=>{return block_list});
+    // ipcMain.handle("data:get_catagories", ()=>{return catas_list});
+    ipcMain.handle("data:get_relations", ()=>{return relas});
     ipcMain.on("debug:log", (_, args) => {console.log(...args)});
     ipcMain.on("window:make_main", createWindow);
     // ipcMain.handle("data:new_block");
