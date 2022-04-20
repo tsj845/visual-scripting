@@ -23,10 +23,27 @@ class ElectronAPI {
     static get_relations () {
         return ipcRenderer.invoke("data:get_relations");
     }
+    static get_bindings () {
+        return ipcRenderer.invoke("data:get_bindings");
+    }
     static log (...args) {
         ipcRenderer.send("debug:log", args);
     }
 }
+
+/**
+ * @property {{Show : [String], Quit : [String], Accept : [String], Back : [String], Up : [String], Down : [String]}} BlockMenu
+ */
+let InputBindings = {
+    BlockMenu : {
+        Show : ["KeyA"],
+        Quit : ["Escape"],
+        Accept : ["ArrowRight", "Enter"],
+        Back : ["ArrowLeft"],
+        Up : ["ArrowUp"],
+        Down : ["ArrowDown"]
+    }
+};
 
 // ElectronAPI.log("index begin");
 
@@ -105,9 +122,37 @@ function populateBlockMenu (options, btn) {
 /**@type {{String:Array<Block>}} */
 let mapping = {};
 
+async function reload_bindings () {
+    let res = await ElectronAPI.get_bindings();
+    if (res === null) {
+        return;
+    }
+    const pf1 = (target, match) => {
+        // ElectronAPI.log(target, match);
+        if (typeof target === "string" || Array.isArray(target)) {
+            return true;
+        }
+        for (const cat in target) {
+            if (cat in match) {
+                if (pf1(target[cat], match[cat])) {
+                    target[cat] = match[cat];
+                }
+            }
+        }
+        return false;
+    }
+    pf1(InputBindings, res);
+    // ElectronAPI.log(InputBindings);
+    // for (const cat in InputBindings) {
+    //     if (cat in res) {}
+    // }
+    // InputBindings = inputbindsres || InputBindings;
+}
+
 async function main () {
     blocks = await ElectronAPI.get_blocks();
     relations = await ElectronAPI.get_relations();
+    await reload_bindings();
     // const catagories = await ElectronAPI.get_catagories();
     for (let i = 0; i < blocks.length; i ++) {
         if (mapping[blocks[i].namespace] === undefined) {
@@ -118,6 +163,7 @@ async function main () {
     // ElectronAPI.log(relations);
     // ElectronAPI.log(mapping);
     juliedothething();
+    MenuDiv.hidden = true;
     booted = true;
 }
 
@@ -133,6 +179,8 @@ let msel_bread_string = [];
 function juliedothething () {
     MenuDiv.replaceChildren();
     if (msel_bread.length === 0) {
+        msel = 0;
+        msel_bread_string = [];
         populateBlockMenu(Object.keys(relations));
         MenuDiv.children[0].classList.toggle("active");
         return;
@@ -140,6 +188,7 @@ function juliedothething () {
     let x = relations;
     for (let i = 0; i < msel_bread_string.length; i ++) {
         x = x[msel_bread_string[i]];
+        // ElectronAPI.log(x);
         if (x === null || x === undefined || x === "NULL") {
             break;
         }
@@ -148,10 +197,40 @@ function juliedothething () {
     if (x !== "NULL") {
         populateBlockMenu(Object.keys(x));
     }
-    // ElectronAPI.log(lst);
+    // ElectronAPI.log(msel_bread_string);
+    ElectronAPI.log(mapping[msel_bread_string.join(".")]);
     populateBlockMenu(mapping[msel_bread_string.join(".")], false);
     // populateBlockMenu(lst);
     MenuDiv.children[0].classList.toggle("active");
+}
+
+let cursor = {x : 0, y : 0};
+
+document.addEventListener("mousemove", (e) => {
+    cursor.x = e.clientX;
+    cursor.y = e.clientY;
+});
+
+let block_menu_open = false;
+
+function show_block_menu (x, y) {
+    MenuDiv.hidden = false;
+    if (x + MenuDiv.clientWidth > window.innerWidth) {
+        x -= MenuDiv.clientWidth;
+    }
+    if (y + MenuDiv.clientHeight > window.innerHeight) {
+        y -= MenuDiv.clientHeight;
+    }
+    MenuDiv.style.setProperty("--x", x);
+    MenuDiv.style.setProperty("--y", y);
+    block_menu_open = true;
+}
+
+function hide_block_menu () {
+    msel_bread = [];
+    juliedothething();
+    MenuDiv.hidden = true;
+    block_menu_open = false;
 }
 
 document.addEventListener("keyup", (e) => {
@@ -160,13 +239,32 @@ document.addEventListener("keyup", (e) => {
     }
     // ElectronAPI.log(msel, msel_bread, msel_bread_string);
     const key = e.code.toString();
-    if (key === "ArrowDown" || key === "ArrowUp") {
+    if (block_menu_open) {
+        if (InputBindings.BlockMenu.Show.includes(key)) {
+            hide_block_menu();
+            show_block_menu(cursor.x, cursor.y);
+        } else {
+            block_menu_key(key);
+        }
+        return;
+    }
+    if (InputBindings.BlockMenu.Show.includes(key)) {
+        show_block_menu(cursor.x, cursor.y);
+    }
+});
+
+function block_menu_key (key) {
+    if (InputBindings.BlockMenu.Quit.includes(key)) {
+        hide_block_menu();
+        return;
+    }
+    if (InputBindings.BlockMenu.Up.includes(key) || InputBindings.BlockMenu.Down.includes(key)) {
         MenuDiv.children[msel].classList.toggle("active");
-        msel += key === "ArrowDown" ? 1 : -1;
+        msel += InputBindings.BlockMenu.Down.includes(key) ? 1 : -1;
         msel %= MenuDiv.children.length;
         MenuDiv.children[msel].classList.toggle("active");
-    } else if (key === "ArrowRight" || key === "ArrowLeft") {
-        if (key === "ArrowLeft") {
+    } else if (InputBindings.BlockMenu.Accept.includes(key) || InputBindings.BlockMenu.Back.includes(key)) {
+        if (InputBindings.BlockMenu.Back.includes(key)) {
             if (msel_bread.length > 0) {
                 // walk back
                 msel = msel_bread.pop();
@@ -181,8 +279,9 @@ document.addEventListener("keyup", (e) => {
             if (MenuDiv.children[msel].children.length > 1) {
                 msel_bread.push(msel);
                 msel_bread_string.push(MenuDiv.children[msel].children[0].textContent);
+                msel = 0;
                 juliedothething();
             }
         }
     }
-});
+}

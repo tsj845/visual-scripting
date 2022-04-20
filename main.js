@@ -98,13 +98,35 @@ function reload_blocks () {
 
 reload_blocks();
 
+function get_input_bindings () {
+    let out = JSON.parse(fs.readFileSync(path.join(__dirname, "prefs/keybinds.json"), {encoding:"utf-8"}));
+    return out == {} ? null : out;
+}
+
+function fileinitcheck () {
+    let reqdirs = ["prefs"];
+    let reqfiles = {"prefs/keybinds.json":"{}"};
+    for (const i in reqdirs) {
+        if (!fs.existsSync(path.join(__dirname, reqdirs[i]))) {
+            fs.mkdirSync(path.join(__dirname, reqdirs[i]));
+        }
+    }
+    for (const i in reqfiles) {
+        if (!fs.existsSync(path.join(__dirname, i))) {
+            fs.writeFileSync(path.join(__dirname, i), reqfiles[i]);
+        }
+    }
+}
+
 app.whenReady().then(() => {
+    fileinitcheck();
     screen = require("electron").screen;
     createStarterWindow();
 
     ipcMain.handle("data:get_blocks", ()=>{return block_list});
     // ipcMain.handle("data:get_catagories", ()=>{return catas_list});
     ipcMain.handle("data:get_relations", ()=>{return relas});
+    ipcMain.handle("data:get_bindings", get_input_bindings);
     ipcMain.on("debug:log", (_, args) => {console.log(...args)});
     ipcMain.on("window:make_main", createWindow);
     // ipcMain.handle("data:new_block");
