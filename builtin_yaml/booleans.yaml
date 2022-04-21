@@ -1,0 +1,22 @@
+---
+name : bool
+description : "NULL"
+category : bool
+controlflows : 0
+inputs:
+  __HIDDEN : "![*,>VCHECK]bool"
+outputs:
+  __HIDDEN : "![*]bool"
+opid : bool.new
+...
+---
+name : tostring
+description : converts to string
+category : bool
+controlflows : 0
+inputs:
+  b : bool
+outputs:
+  s : string
+opid : bool.tostring
+...

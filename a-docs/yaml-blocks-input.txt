@@ -1,0 +1,46 @@
+please ensure you've seen "yaml-blocks" before reading this
+
+used to designate special things that should be done with inputs
+
+
+the below sample contains the same functional data as the string initiallizer
+---
+# not all required fields for a block are present in this example
+
+# a "![]" will contain all special instructions for displaying input and output, note that this should not be used widely across many blocks and should generally only be used on the initiallizers for primitives
+# instructions are seperated by commas
+inputs:
+    __HIDDEN : "![*,>_TEXT]string"
+
+# the only valid instruction for an output node is to hide it
+outputs:
+    __HIDDEN : "![*]string"
+...
+
+
+the below sample is from the boolean initiallizer
+---
+inputs:
+    __HIDDEN : "![*,>VCHECK]bool"
+
+outputs:
+    __HIDDEN : "![*]bool"
+...
+
+below is a sample from the list initiallizer
+---
+inputs:
+    "*items" : "![*,>|LIST]untyped"
+
+outputs:
+    list : "![*]list"
+...
+
+below is a sample from the dict initiallizer
+---
+inputs:
+    "*pairs" : "![*,>|DICT](untyped, untyped)"
+
+outputs:
+    dict : "![*]dict"
+...

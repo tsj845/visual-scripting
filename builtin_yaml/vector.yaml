@@ -6,10 +6,92 @@ description : creates a new vector
 category : math
 controlflows : 0
 inputs:
-  x : number
-  y : number
-  z : number
+  x : number?=0
+  y : number?=0
+  z : number?=0
 outputs:
   vector : vector
 opid : vector.new
+...
+---
+name:
+  programmer : add
+  basic : add
+description : adds two vectors
+category : math
+controlflows : 0
+inputs:
+  v1 : vector
+  v2 : vector
+outputs:
+  vector : vector
+opid : vector.add
+...
+---
+name:
+  programmer : sub
+  basic : subtract
+description : subtracts two vectors
+category : math
+controlflows : 0
+inputs:
+  v1 : vector
+  v2 : vector
+outputs:
+  vector : vector
+opid : vector.sub
+...
+---
+name:
+  programmer : mul
+  basic : multiply
+description : multiplies a vector by a scalar
+category : math
+controlflows : 0
+inputs:
+  v : vector
+  s : number
+outputs:
+  vector : vector
+opid : vector.mul
+...
+---
+name:
+  programmer : div
+  basic : divide
+description : divides a vector by a scalar
+category : math
+controlflows : 0
+inputs:
+  v : vector
+  s : number
+outputs:
+  vector : vector
+opid : vector.div
+...
+---
+name:
+  programmer : mag
+  basic : magnitude
+description : gets the magnitude of a vector
+category : math
+controlflows : 0
+inputs:
+  v : vector
+outputs:
+  vector : vector
+opid : vector.mag
+...
+---
+name:
+  programmer : norm
+  basic : normalized
+description : normalizes a vector
+category : math
+controlflows : 0
+inputs:
+  v : vector
+outputs:
+  vector : vector
+opid : vector.norm
 ...

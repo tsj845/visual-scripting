@@ -43,3 +43,28 @@
     background : lightgray;
     color : dimgray;
 }
+
+.block-container {
+    position : absolute;
+    left : calc(var(--x, 0) * 1px);
+    top : calc(var(--y, 0) * 1px);
+    background : lightgray;
+    height : 3em;
+    width : var(--w, 20vw);
+    border : solid gray 2px;
+    border-radius : 2px;
+}
+
+.block-container > .block-title {
+    position : absolute;
+    top : 0px;
+    left : 0px;
+    /* left : calc(var(--x, 0) * 1px);
+    top : calc(var(--y, 0) * 1px); */
+    /* width : fit-content; */
+    width : inherit;
+    height : calc(1em + 2px);
+    text-align : center;
+    background : dimgray;
+    border-bottom : solid gray 2px;
+}

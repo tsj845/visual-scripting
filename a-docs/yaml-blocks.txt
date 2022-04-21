@@ -1,0 +1,39 @@
+each yaml document defines one block's appearence
+
+---
+throws : true # this block can raise errors, omit it if block doesn't raise errors
+
+# each block will have two names unless they are the same
+name : common name
+# when names differ
+name:
+    programmer : clear and concise
+    basic : a bit more verbose
+
+description : describes what this block does
+
+# describes a general area that the block is in ex: "add" is in the "math" category
+category : mycategory
+
+# use 0 for blocks which won't encounter race conditions ex: adding 1 + 2 always results in 3 regardless of outside states
+# use 1 to terminate control flow
+# use 2 or more to create a block that can switch which control flow path is run after it executes
+# blocks never have more than one control flow input, but can have an arbitrary number of control flow outputs
+controlflows : 0, 1, 2, ... n
+
+# inputs the block has
+inputs:
+    some_input : data_type
+    different_input : optional_data?=some_default_value
+    # the "__HIDDEN" name is just my personal convention, could be anything
+    __HIDDEN : "![*,>_TEXT]string"
+
+# the outputs that the block has
+outputs:
+    myoutput : bool
+
+# the id of the operation to run
+opid : process.terminate
+...
+
+see "yaml-blocks-input" for more details on the "__HIDDEN" input of the above example

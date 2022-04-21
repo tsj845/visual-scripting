@@ -1,0 +1,86 @@
+---
+name : string
+description : "NULL"
+category : string
+controlflows : 0
+inputs:
+  __HIDDEN : "![*,>_TEXT]string"
+outputs:
+  __HIDDEN : "![*]string"
+opid : string.new
+...
+---
+throws : true
+name:
+  programmer : parse
+  basic : to number
+description : converts a string to a number
+category : string
+controlflows : 2
+inputs:
+  s : string
+  base : number?=10
+opid : string.parse
+...
+---
+name : index
+description : looks for the index of the given substring
+category : string
+controlflows : 0
+inputs:
+  s : string
+  sub : string
+outputs:
+  r : string
+opid : string.index
+...
+---
+name : rindex
+description : looks for a substring starting from the end
+category : string
+controlflows : 0
+inputs:
+  s : string
+  sub : string
+outputs:
+  r : string
+opid : string.rindex
+...
+---
+name : split
+description : splits the string by a substring "n" number of times
+category : string
+controlflows : 0
+inputs:
+  s : string
+  sub : string
+  n : number?=-1
+outputs:
+  r : string
+opid : string.split
+...
+---
+name : rsplit
+description : split but starting from the end
+category : string
+controlflows : 0
+inputs:
+  s : string
+  sub : string
+  n : number?=-1
+outputs:
+  r : string
+opid : string.rsplit
+...
+---
+# for situations where tostring is called on an "any" which could already be a string
+name : tostring
+description : "NULL"
+category : string
+controlflows : 0
+inputs:
+  __HIDDEN : "![*]string"
+outputs:
+  __HIDDEN : "![*]string"
+opid : string.tostring
+...

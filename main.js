@@ -98,9 +98,17 @@ function reload_blocks () {
 
 reload_blocks();
 
+let update_cached = true;
+let cached_bindings = {};
+
 function get_input_bindings () {
+    if (!update_cached) {
+        return cached_bindings;
+    }
+    update_cached = false;
     let out = JSON.parse(fs.readFileSync(path.join(__dirname, "prefs/keybinds.json"), {encoding:"utf-8"}));
-    return out == {} ? null : out;
+    cached_bindings = out == {} ? null : out;
+    return cached_bindings;
 }
 
 function fileinitcheck () {
@@ -129,6 +137,10 @@ app.whenReady().then(() => {
     ipcMain.handle("data:get_bindings", get_input_bindings);
     ipcMain.on("debug:log", (_, args) => {console.log(...args)});
     ipcMain.on("window:make_main", createWindow);
+    ipcMain.on("prefs:binding-change", (_, bindings) => {
+        fs.writeFileSync(path.join(__dirname, "prefs/keybinds.json"), JSON.stringify(bindings), {encoding:"utf-8"});
+        ipcMain.emit("event:binding-change");
+    });
     // ipcMain.handle("data:new_block");
     app.on("activate", () => {
         if (BrowserWindow.getAllWindows().length === 0) {

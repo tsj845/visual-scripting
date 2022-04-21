@@ -1,0 +1,11 @@
+defines how submenus are ordered when selecting a block
+
+when a category has no sub categories it is mapped to the string "NULL"
+
+{
+    "mynamespace" : {
+        "subcategory" : "NULL"
+    }
+}
+
+see "yaml-linker" for information on how namespaces are defined

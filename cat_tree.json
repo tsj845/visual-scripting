@@ -1,4 +1,11 @@
 {
+  "Primitives" : {
+    "List" : "NULL",
+    "Dict" : "NULL",
+    "String" : "NULL",
+    "Number" : "NULL",
+    "Boolean" : "NULL"
+  },
   "IO" : "NULL",
   "Math": {
     "Vector" : "NULL"

@@ -1,0 +1,8 @@
+links up yaml files and provides their contents with a namespace used for defining which submenu they will appear in when selecting a block
+
+---
+target : "filepath.yaml"
+namespace : "mynamespace"
+...
+
+see "json-category-tree" for info on how submenus are determined

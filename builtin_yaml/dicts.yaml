@@ -1,0 +1,11 @@
+---
+name : dict
+description : "NULL"
+category : dict
+controlflows : 0
+inputs:
+  "*pairs" : "![*,>|DICT](untyped, untyped)"
+outputs:
+  dict : "![*]dict"
+opid : dict.new
+...

@@ -1,0 +1,48 @@
+---
+name : number
+description : "NULL"
+category : number
+controlflows : 0
+inputs:
+  __HIDDEN : "![*,>#NUMBER]number"
+outputs:
+  __HIDDEN : "![*]number"
+opid : number.new
+...
+---
+name : tostring
+description : converts to string
+category : number
+controlflows : 0
+inputs:
+  n : number
+outputs:
+  s : string
+opid : number.tostring
+...
+---
+name:
+  programmer : hex
+  basic : as hex
+description : returns the number as a hexadecimal string
+category : number
+controlflows : 0
+inputs:
+  n : number
+outputs:
+  s : string
+opid : number.tohex
+...
+---
+name:
+  programmer : bin
+  basic : as binary
+description : returns the number as a binary string
+category : number
+controlflows : 0
+inputs:
+  n : number
+outputs:
+  s : string
+opid : number.tobin
+...

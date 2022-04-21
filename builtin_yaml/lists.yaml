@@ -1,0 +1,89 @@
+---
+name : list
+description : "NULL"
+category : list
+controlflows : 0
+inputs:
+  "*items" : "![*,>|LIST]untyped"
+outputs:
+  list : "![*]list"
+opid : list.new
+...
+---
+name : length
+description : gets the length of the list
+category : list
+controlflows : 0
+inputs:
+  l : list<_>
+outputs:
+  length : number
+opid : list.length
+...
+---
+throws : true
+name : join
+description : joins the items of the list with a seperator, raises an error if the items in the list can't be converted to strings
+category : list
+controlflows : 2
+inputs:
+  l : list<_>
+  sep : string
+outputs:
+  joined : string
+opid : list.join
+...
+---
+throws : true
+name : push
+description : adds an item to the end of the list, raises an error if types don't match
+category : list
+controlflows : 2
+inputs:
+  l : list<_>
+  item : any
+outputs:
+  r : list<_>
+opid : list.push
+...
+---
+throws : true
+name : insert
+description : inserts the item at an index, raises an error if types don't match or the index is beyond the end of the list
+category : list
+controlflows : 2
+inputs:
+  l : list<_>
+  item : any
+  index : number
+outptus:
+  r : list<_>
+opid : list.insert
+...
+---
+throws : true
+name : pop
+description : removes and returns the last item of the list, raises an error if there are no items in the list
+category : list
+controlflows : 2
+inputs:
+  l : list<_>
+outputs:
+  item : <_>
+  r : list<_>
+opid : list.pop
+...
+---
+throws : true
+name : remove
+description : removes and returns the item at the given index, raises an error if the index is out of bounds
+category : list
+controlflows : 2
+inputs:
+  l : list<_>
+  index : number
+outputs:
+  r : list<_>
+  item : <_>
+opid : list.remove
+...
