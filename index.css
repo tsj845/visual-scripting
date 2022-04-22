@@ -68,3 +68,16 @@
     background : dimgray;
     border-bottom : solid gray 2px;
 }
+
+.io-type-circle {
+    width : var(--r, 5vw);
+    height : var(--r, 5vw);
+    clip-path : circle(50% at 50% 50%);
+}
+
+.io-type-circle-inner {
+    width : inherit;
+    height : inherit;
+    clip-path : circle(40% at 50% 50%);
+    /* background-color: transparent !important; */
+}

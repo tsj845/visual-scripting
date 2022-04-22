@@ -46,7 +46,7 @@ class ElectronAPI {
         return ipcRenderer.invoke("data:get_bindings");
     }
     static log (...args) {
-        return ipcRenderer.send("debug:log", args);
+        ipcRenderer.send("debug:log", args);
     }
 }
 
@@ -116,10 +116,6 @@ function getName (block) {
 //     return container;
 // }
 
-<div class="io-type-circle">
-    <div class="io-type-circle-inner"></div>
-</div>
-
 /**
  * 
  * @param {Number} h 
@@ -170,7 +166,7 @@ function parse_rgb_to_string (color) {
     if (color.length === 3) {
         color = color[0]+color[0]+color[1]+color[1]+color[2]+color[2];
     }
-    t = "0123456789abcdef";
+    const t = "0123456789abcdef";
     return {r : t.indexOf(color[0])*16+t.indexOf(color[1]), g : t.indexOf(color[2])*16+t.indexOf(color[3]), b : t.indexOf(color[4])*16+t.indexOf(color[5])};
 }
 
@@ -197,9 +193,9 @@ function rgb_to_hsl (rgb) {
  * @returns {HTMLDivElement}
  */
 function createBlockIOPort (color) {
-    const outer = createElement("div", undefined, "io-type-circle", {"background":color});
     const {H, S, L} = rgb_to_hsl(color);
-    const inner = createElement("div", undefined, "io-type-circle-inner", {"background":hsl_to_rgb(H, S, L-10)});
+    const outer = createElement("div", undefined, "io-type-circle", {"--r":"1.5vw", "background":hsl_to_rgb(H, S, L*0.9)});
+    const inner = createElement("div", undefined, "io-type-circle-inner", {"background":color});
     outer.appendChild(inner);
     return outer;
 }
@@ -285,12 +281,6 @@ async function reload_bindings () {
 }
 
 async function main () {
-    try {
-        document.body.appendChild(createBlockIOPort("#0f0"));
-    } catch (err) {
-        await ElectronAPI.log(err);
-        throw err;
-    }
     blocks = await ElectronAPI.get_blocks();
     relations = await ElectronAPI.get_relations();
     await reload_bindings();
